@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="app">
-    <a href="#" id="click" @click="connect_usb"> Connection to usb device </a>
+    <a href="#" id="display" @click="connect_usb"> Connection to usb device </a>
+    <p id="display"></p>
     <HelloWorld name="test"></HelloWorld>
   </div>
 </template>
@@ -16,22 +17,24 @@ export default {
   methods: {
     connect_usb: function () {
       // PROBLEME AVEC CETTE TECHNIQUE C'EST QU'IL FAUT RECCUPÉRER LE VENDORID MAIS IL DOIT Y AVOIR UNE AUTRE SOLUTION
-      navigator.usb
-        .requestDevice({ filters: [{ vendorId: 0x2109 }] })
-        .then((device) => {
-          console.log(device);
-          console.log(device.productId.toString(16));
-          console.log(device.vendorId.toString(16));
-        })
-        .catch((error) => {
-          console.log(error);
+      navigator.usb.getDevices().then((devices) => {
+        console.log("Total devices: " + devices.length);
+        devices.forEach((device) => {
+          console.log(
+            "Product name: " +
+              device.productName +
+              ", serial number " +
+              device.serialNumber
+          );
         });
+      });
     },
     test: function () {
-      var usb = require('usb')
+      var usb = require("usb");
       document.getElementById("display").innerHTML = JSON.stringify(
         usb.getDeviceList()
       );
+      console.log(usb.getDeviceList());
     },
   },
 };
