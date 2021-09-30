@@ -1,5 +1,8 @@
 <template>
   <div class="app">
+    <div>
+      To find your vendor ID, go to this link: "about://usb-internals" and click on "device" to see all your device connected 
+    </div>
     <label for="vendorId">Vendor ID: 0x</label>
     <input
       type="text"
@@ -7,22 +10,18 @@
       placeholder="vendorId"
       id="vendor"
       value="2a03"
+      class="input"
     />
-    <p>
-      <a href="#" id="click" @click="click">Click me to get USB device info</a>
-    </p>
-    <!-- <div v-for="test in devices" :key="test.length" class="helloworld">
+    <div class="button">
+      <a href="#" id="click" @click="click">Add USB</a>
+    </div>
+    <div class="helloworld">
       <HelloWorld
-        v-for="helloworld in device"
+        v-for="helloworld in devices"
         :key="helloworld.productId"
-        :name="helloworld.productName"
+        :name="device.productName"
       ></HelloWorld>
-    </div> a approfondir -->
-    <HelloWorld
-      v-for="helloworld in devices"
-      :key="helloworld.productId"
-      :name="helloworld.productName"
-    ></HelloWorld>
+    </div>
   </div>
 </template>
 <script>
@@ -37,7 +36,8 @@ export default {
   data() {
     return {
       devices: 0,
-      device: "",
+      device: [],
+      productName: "",
     };
   },
   methods: {
@@ -57,7 +57,8 @@ export default {
         this.devices = devices.length;
         console.log("Total devices: " + devices.length);
         devices.forEach((device) => {
-          this.device = device.productName;
+          this.device = device;
+          this.productName = device.productName;
           console.log(
             "Product name: " +
               device.productName +
@@ -67,6 +68,7 @@ export default {
         });
       });
     },
+    click2: function () {},
   },
 };
 var OS = "OS Inconnu";
@@ -86,11 +88,41 @@ console.log(OS);
   color: #2c3e50;
 }
 
-.app {
+.button {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  width: 220px;
+  height: 40px;
+  padding: 7px 75px 9px;
+  border-radius: 4px;
+  background-color: black;
+  margin: 10px;
 }
 
-.hellorworld {
+.button a {
+  color: white;
+  text-decoration: none;
+}
+
+.input {
+  width: 10%;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.helloworld {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
